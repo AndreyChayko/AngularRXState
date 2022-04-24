@@ -1,0 +1,21 @@
+.product-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    justify-content: space-between;
+
+    &__header {
+      &--title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 250px;
+      }
+    }
+  }
+}

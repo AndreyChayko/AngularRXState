@@ -1,3 +1,16 @@
-<div *ngFor="let product of products$ | async">
-  {{product | json}}
+<div class="product-cards">
+  <mat-card class="card" *ngFor="let product of products$ | async">
+    <mat-card-header class="card__header">
+      <div mat-card-avatar>{{product.id}}</div>
+      <mat-card-title class="card__header--title">{{product.title}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="{{product.image}}" alt="product image">
+    <mat-card-content class="card-content">
+      <div class="card-content__spacer"></div>
+
+      <p>{{product.description}}</p>
+      <p>{{product.price | currency}}</p>
+    </mat-card-content>
+  </mat-card>
 </div>
+
