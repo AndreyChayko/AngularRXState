@@ -22,7 +22,7 @@ jobs:
       run: npm install && npm run build-prod
 
     - name: Deploy
-      uses: node16
+      uses: JamesIves/github-pages-deploy-action@4.4.2
       with:
         branch: gh-pages
         folder: ./dist/angular-rxstate
