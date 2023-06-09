@@ -19,11 +19,11 @@ jobs:
 
     - name: Install and build
       working-directory: ./
-      run: npm install && npm run build-prod && cp dist/rx-state/index.html dist/rx-state/404.html
+      run: npm install && npm run build-prod
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.1
       with:
         branch: gh-pages
-        folder: ./dist/rx-state
+        folder: ./dist
 
