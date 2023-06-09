@@ -1,22 +1,29 @@
-name: CI/CD
+name: Angular RX State Deploy
 
-on: [push]
+on:
+  push:
+    branches:
+      - "master"
 
 jobs:
   build:
-
     runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [18.14]
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 8.15.1
-      uses: actions/setup-node@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install and build
+      working-directory: ./
+      run: npm install && npm run build-prod && cp dist/rx-state/index.html dist/rx-state/404.html
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.1
       with:
-        node-version: 8.15.1
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BASE_BRANCH: master
-        BRANCH: master
-        FOLDER: dist/github-community-sl
-        BUILD_SCRIPT: npm install && npm run build -- --prod
+        branch: gh-pages
+        folder: ./dist/rx-state
+
