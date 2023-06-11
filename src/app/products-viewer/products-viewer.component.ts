@@ -16,7 +16,7 @@ import {
   shareReplay,
   switchMap,
   takeUntil,
-  tap,
+  tap, withLatestFrom,
 } from 'rxjs';
 
 @Component({
@@ -38,7 +38,6 @@ export class ProductsViewerComponent implements OnDestroy, OnInit {
     )
   );
   products$ = this.productsService.getProducts().pipe(
-    takeUntil(this.destroy$),
     tap(() =>
       console.log(
         '%c products$ calculating...',
@@ -87,9 +86,11 @@ export class ProductsViewerComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.distinctIndex$
-      .pipe(switchMap((index) => of(index).pipe(delay(3000))))
-      .subscribe((index) => {
-        this.productIndex$.next(this.productIndex$.value + 1);
+      .pipe(switchMap((index) => of(index).pipe(delay(3000))),
+        withLatestFrom(this.hasNext$),
+        takeUntil(this.destroy$))
+      .subscribe(([, hasNext]) => {
+        this.productIndex$.next( hasNext ? this.productIndex$.value + 1 : this.productIndex$.value);
       });
   }
 

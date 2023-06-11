@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
-import { delay, Observable, of, switchMap, tap } from 'rxjs';
+import {delay, distinctUntilChanged, Observable, of, switchMap, tap, withLatestFrom} from 'rxjs';
 import { Product } from '../../models/product';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import isEqual from 'lodash.isequal';
 
 interface ProductsState {
   products: Product[];
@@ -30,7 +31,7 @@ export class ProductsViewerStoreComponent implements OnInit {
       'color: green; padding-left: 60px;'
     );
     return state.products;
-  });
+  }).pipe(distinctUntilChanged(isEqual));
   product$: Observable<Product> | undefined = this.store.select(
     this.products$,
     this.productIndex$,
@@ -82,11 +83,15 @@ export class ProductsViewerStoreComponent implements OnInit {
     this.store.effect(() =>
       this.productIndex$.pipe(
         switchMap((index) => of(index).pipe(delay(3000))),
-        tap(() =>
-          this.store.patchState((state) => ({
-            ...state,
-            productIndex: state.productIndex + 1,
-          }))
+        withLatestFrom(this.hasNext$),
+        tap(([index,hasNext]) =>
+
+              this.store.patchState((state) => ({
+                ...state,
+                productIndex: hasNext ? state.productIndex + 1 : state.productIndex,
+              }))
+
+
         )
       )
     );

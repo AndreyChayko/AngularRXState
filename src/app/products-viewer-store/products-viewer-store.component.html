@@ -1,10 +1,12 @@
-<div class="controls" *ngIf="(products$ | async)?.length">
+<ng-container *ngrxLet="products$ as products">
+<div class="controls" *ngIf="products.length">
   <button mat-button [disabled]="(hasPrevious$ | async) === false" (click)="previous()">Previous</button>
   <button mat-button (click)="reset()">Reset</button>
   <button mat-button [disabled]="(hasNext$ | async) === false" (click)="next()">Next</button>
 </div>
-<div class="product-cards" *ngIf="(products$ | async)?.length">
-  <mat-card class="card" *ngIf="product$ | async as product">
+<div class="product-cards" *ngIf="products.length">
+  <ng-container *ngrxLet="product$ as product">
+  <mat-card class="card" *ngIf="product">
     <mat-card-header class="card__header">
       <div mat-card-avatar>{{product.id}}</div>
       <mat-card-title class="card__header--title">{{product.title}}</mat-card-title>
@@ -22,5 +24,6 @@
       <button mat-button [disabled]="(hasNext$ | async) === false" (click)="next()">Next</button>
     </mat-card-actions>
   </mat-card>
+  </ng-container>
 </div>
-
+</ng-container>

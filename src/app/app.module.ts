@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { ProductsViewerStateComponent } from './products-viewer-state/products-viewer-state.component';
 import { ProductsViewerStoreComponent } from './products-viewer-store/products-viewer-store.component';
+import {ReactiveComponentModule} from "@ngrx/component";
 
 @NgModule({
   declarations: [
@@ -19,15 +20,16 @@ import { ProductsViewerStoreComponent } from './products-viewer-store/products-v
     ProductsViewerStateComponent,
     ProductsViewerStoreComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatButtonModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatCardModule,
+        MatButtonModule,
+        ReactiveComponentModule,
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

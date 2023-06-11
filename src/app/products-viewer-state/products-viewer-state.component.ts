@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { delay, map, of, switchMap, tap } from 'rxjs';
+import {delay, map, of, switchMap, tap, withLatestFrom} from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { RxState, select, selectSlice } from '@rx-angular/state';
 import { Product } from '../../models/product';
@@ -77,7 +77,7 @@ export class ProductsViewerStateComponent {
     this.state.connect(
       'productIndex',
       this.productIndex$.pipe(
-        switchMap((index) => of(index).pipe(delay(3000)))
+        switchMap((index) => of(index).pipe(delay(3000))),
       ),
       ({ productIndex }) => productIndex + 1
     );
